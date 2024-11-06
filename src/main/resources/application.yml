@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: museum
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/museum
+    username: museum
+    password: museum123!@#
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    serialization:
+      indent_output: true
+
+auth:
+  jwt:
+    secret: 7798996ca3bd293d717e8ac753406cc6fece424e91c49246adea9be2cb439679de094a5ae672d996ab57841306a5e3a9a617742a3309ccba18fbbd84ab468584
+  enabled: false

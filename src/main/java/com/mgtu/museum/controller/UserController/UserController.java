@@ -1,6 +1,5 @@
 package com.mgtu.museum.controller.UserController;
 
-import com.mgtu.museum.controller.Response;
 import com.mgtu.museum.controller.UserController.dto.CreateUserDto;
 import com.mgtu.museum.service.UserService;
 import lombok.AllArgsConstructor;

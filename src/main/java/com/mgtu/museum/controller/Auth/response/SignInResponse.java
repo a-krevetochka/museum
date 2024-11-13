@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SignInResponse {
+public class SignInResponse{
     String token;
 }

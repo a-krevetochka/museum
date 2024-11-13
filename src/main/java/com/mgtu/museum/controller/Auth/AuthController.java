@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.LoginException;
+import java.nio.file.AccessDeniedException;
 
 @RestController
 @AllArgsConstructor
@@ -16,12 +16,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInDto) throws LoginException {
-        try {
-            return ResponseEntity.ok(authService.signIn(signInDto));
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().body(new SignInResponse(e.getMessage()));
-        }
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInDto) throws AccessDeniedException {
+        return ResponseEntity.ok(authService.signIn(signInDto));
     }
 }

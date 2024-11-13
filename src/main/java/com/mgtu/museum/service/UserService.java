@@ -2,8 +2,8 @@ package com.mgtu.museum.service;
 
 import com.mgtu.museum.controller.UserController.dto.CreateUserDto;
 import com.mgtu.museum.entity.User;
+import com.mgtu.museum.exceptions.business.BusinessException;
 import com.mgtu.museum.repository.UserRepository;
-import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
 
     public void createUser(CreateUserDto dto) {
         if (userRepository.findByUsername(dto.getUsername()) != null) {
-            throw new EntityExistsException("Username already exists");
+            throw new BusinessException("Пользователь уже существует");
         }
         dto.setSecret(BCrypt.hashpw(dto.getSecret(), BCrypt.gensalt()));
         userRepository.save(mapper.map(dto, User.class));

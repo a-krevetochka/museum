@@ -1,6 +1,3 @@
--- create database museum
---     with owner museum;
-
 create sequence public.shelfs_number_seq
     as integer;
 

@@ -22,23 +22,16 @@ public class ExhibitionController {
     @PostMapping("create")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> createExhibition(@RequestBody CreateExhibitionDto dto) {
-        try {
-            exhibitionService.createExhibition(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Успешно создано");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        exhibitionService.createExhibition(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Успешно создано");
     }
 
     @PutMapping("update")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> updateExhibition(@RequestBody UpdateExhibitionDto dto) {
-        try {
-            exhibitionService.updateExhibition(dto);
-            return ResponseEntity.status(HttpStatus.OK).body("Успешно обновлено");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        exhibitionService.updateExhibition(dto);
+        return ResponseEntity.status(HttpStatus.OK).body("Успешно обновлено");
+
 
     }
 

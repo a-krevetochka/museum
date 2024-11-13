@@ -3,16 +3,13 @@ package com.mgtu.museum.repository;
 import com.mgtu.museum.entity.User;
 import com.mgtu.museum.mapper.UserMapper;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.support.TransactionTemplate;
 
 @Repository
 @AllArgsConstructor
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final TransactionTemplate transactionTemplate;
 
     public User findByUsername(String username) {
         String sql = """

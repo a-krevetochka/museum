@@ -1,20 +1,18 @@
 package com.mgtu.museum.entity;
 
-import com.mgtu.museum.Enum.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.sql.Timestamp;
-import java.time.Instant;
+
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Data
-@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @Column(name = "id", nullable = false)
@@ -31,17 +29,17 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private Date updatedAt;
 
     @Column(name = "deleted_at")
-    private Timestamp deletedAt;
+    private Date deletedAt;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private Date createdAt;
 
-    @Column(name = "role", nullable = false, length = 16)
-    private UserRole role;
+    @JoinColumn(name = "role")
+    private Role role;
 
     @Column(name = "secret", nullable = false, length = 256)
     private String secret;
@@ -52,12 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return role.toString();
-            }
-        });
+        return List.of(role);
     }
 
     @Override
@@ -65,3 +58,4 @@ public class User implements UserDetails {
         return secret;
     }
 }
+

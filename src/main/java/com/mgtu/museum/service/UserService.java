@@ -1,6 +1,5 @@
 package com.mgtu.museum.service;
 
-import com.mgtu.museum.controller.Auth.Dto.SignInDto;
 import com.mgtu.museum.controller.UserController.dto.CreateUserDto;
 import com.mgtu.museum.entity.User;
 import com.mgtu.museum.repository.UserRepository;

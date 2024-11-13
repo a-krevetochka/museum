@@ -21,7 +21,7 @@ public class TokenService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         Instant now = Instant.now();
-        Instant exp = now.plus(1, ChronoUnit.WEEKS);
+        Instant exp = now.plus(100, ChronoUnit.DAYS);
 
         return JWT.create()
                 .withIssuer("auth-service")
@@ -39,7 +39,6 @@ public class TokenService {
     public boolean checkToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTVerifier verifier = JWT.require(algorithm).build();
-
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             if (!decodedJWT.getIssuer().equals("auth-service")) {

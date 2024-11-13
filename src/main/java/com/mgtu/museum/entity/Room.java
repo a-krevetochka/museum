@@ -1,27 +1,27 @@
 package com.mgtu.museum.entity;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
-public class Shelf {
+@Table(name = "rooms")
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
-    @ColumnDefault("nextval('shelfs_number_seq')")
     @Column(name = "number", nullable = false)
     private Integer number;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "shelving_id", nullable = false)
-    private Shelving shelving;
+    @JoinColumn(name = "storage_id", nullable = false)
+    private Storage storage;
 
 }

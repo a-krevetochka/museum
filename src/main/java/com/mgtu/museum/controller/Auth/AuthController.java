@@ -1,14 +1,10 @@
 package com.mgtu.museum.controller.Auth;
 
-import com.mgtu.museum.controller.Auth.Dto.SignInDto;
-import com.mgtu.museum.controller.Response;
+import com.mgtu.museum.controller.Auth.request.SignInRequest;
+import com.mgtu.museum.controller.Auth.response.SignInResponse;
 import com.mgtu.museum.service.AuthService;
-import com.mgtu.museum.service.TokenService;
-import com.mgtu.museum.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.headers.Header;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
@@ -20,10 +16,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public Response<String> signIn(@RequestBody SignInDto signInDto) throws LoginException {
-        String token = authService.signIn(signInDto);
-        return Response.<String>builder()
-                .data(token)
-                .build();
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInDto) throws LoginException {
+        try {
+            return ResponseEntity.ok(authService.signIn(signInDto));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(new SignInResponse(e.getMessage()));
+        }
     }
 }

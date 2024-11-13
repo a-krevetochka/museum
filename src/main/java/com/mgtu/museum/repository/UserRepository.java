@@ -13,7 +13,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final TransactionTemplate transactionTemplate;
-    private final ModelMapper mapper;
 
     public User findByUsername(String username) {
         String sql = """

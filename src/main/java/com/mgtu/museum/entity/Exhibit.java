@@ -1,15 +1,19 @@
 package com.mgtu.museum.entity;
 
+import com.mgtu.museum.Enum.PackagingType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 public class Exhibit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +22,10 @@ public class Exhibit {
 
     @Size(max = 64)
     @Column(name = "packaging_type", length = 64)
-    private String packagingType;
+    private PackagingType packagingType;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "storage_shelf_id", nullable = false)
-    private Shelf storageShelf;
+    private Integer storageShelfId;
 
     @Size(max = 256)
     @NotNull

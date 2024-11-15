@@ -1,4 +1,4 @@
-package com.mgtu.museum.controller.ExhibitionController.dto;
+package com.mgtu.museum.controller.ExhibitionController.Request;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @RequiredArgsConstructor
-public class UpdateExhibitionDto {
+public class UpdateExhibitionRequest {
     @NonNull
     Integer id;
     String name;

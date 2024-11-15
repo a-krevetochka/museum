@@ -3,11 +3,15 @@ package com.mgtu.museum.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @Entity
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Shelf {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +19,9 @@ public class Shelf {
     private Integer id;
 
     @NotNull
-    @ColumnDefault("nextval('shelfs_number_seq')")
     @Column(name = "number", nullable = false)
     private Integer number;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "shelving_id", nullable = false)
-    private Shelving shelving;
+    private Integer shelving_id;
 
 }

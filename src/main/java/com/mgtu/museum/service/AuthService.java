@@ -3,7 +3,6 @@ package com.mgtu.museum.service;
 import com.mgtu.museum.controller.Auth.request.SignInRequest;
 import com.mgtu.museum.controller.Auth.response.SignInResponse;
 import com.mgtu.museum.entity.User;
-import com.mgtu.museum.exceptions.business.BusinessException;
 import com.mgtu.museum.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,13 +16,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
-    public SignInResponse signIn(SignInRequest dto) throws AccessDeniedException {
+    public SignInResponse signIn(SignInRequest dto) throws AccessDeniedException{
         User user = userRepository.findByUsername(dto.getUsername());
         if(user == null) {
-            throw new BusinessException("Такого пользователя не существует");
+            throw new AccessDeniedException("Неверный логин или пароль");
         }
         if (!BCrypt.checkpw(dto.getSecret(), user.getSecret())){
-            throw new AccessDeniedException("Неверный пароль");
+            throw new AccessDeniedException("Неверный логин или пароль");
         }
         return new SignInResponse(tokenService.generateToken(dto.getUsername()));
     }

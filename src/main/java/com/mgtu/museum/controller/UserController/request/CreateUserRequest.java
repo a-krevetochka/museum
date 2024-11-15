@@ -1,4 +1,4 @@
-package com.mgtu.museum.controller.UserController.dto;
+package com.mgtu.museum.controller.UserController.request;
 
 import com.mgtu.museum.Enum.UserRole;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateUserDto {
+public class CreateUserRequest {
     private String username;
     private String secret;
     private String name;

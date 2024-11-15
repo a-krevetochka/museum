@@ -16,7 +16,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInDto) throws AccessDeniedException {
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInDto) throws AccessDeniedException{
         return ResponseEntity.ok(authService.signIn(signInDto));
     }
 }

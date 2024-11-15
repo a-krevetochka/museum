@@ -1,10 +1,11 @@
 package com.mgtu.museum.service;
 
-import com.mgtu.museum.controller.ExhibitionController.dto.CreateExhibitionDto;
-import com.mgtu.museum.controller.ExhibitionController.dto.GetExhibitionDto;
-import com.mgtu.museum.controller.ExhibitionController.dto.UpdateExhibitionDto;
+import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
+import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
+import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
 import com.mgtu.museum.repository.ExhibitionRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,22 +16,23 @@ import java.util.List;
 @AllArgsConstructor
 public class ExhibitionService {
     private final ExhibitionRepository exhibitionRepository;
+    private final ModelMapper modelMapper;
 
-    public void createExhibition(CreateExhibitionDto dto) {
+    public void createExhibition(CreateExhibitionRequest dto) {
         validateDates(dto.getStartDate(), dto.getEndDate());
         exhibitionRepository.save(dto);
     }
 
 
-    public List<GetExhibitionDto> getAllExhibitions() {
+    public List<GetAllExhibitionResponse> getAllExhibitions() {
+        return exhibitionRepository.getAll().stream().map(e -> modelMapper.map(e, GetAllExhibitionResponse.class)).toList();
+    }
+
+    public GetAllExhibitionResponse getExhibitionById(int id) {
         return null;
     }
 
-    public GetExhibitionDto getExhibitionById(int id) {
-        return null;
-    }
-
-    public void updateExhibition(UpdateExhibitionDto dto) {
+    public void updateExhibition(UpdateExhibitionRequest dto) {
         validateDates(dto.getStartDate(), dto.getEndDate());
         exhibitionRepository.update(dto);
     }

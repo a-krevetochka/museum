@@ -1,19 +1,18 @@
 package com.mgtu.museum.controller.ExhibitionController;
 
-import com.mgtu.museum.controller.ExhibitionController.dto.CreateExhibitionDto;
-import com.mgtu.museum.controller.ExhibitionController.dto.GetExhibitionDto;
-import com.mgtu.museum.controller.ExhibitionController.dto.UpdateExhibitionDto;
+import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
+import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
+import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
 import com.mgtu.museum.service.ExhibitionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("api/v1/exhibition")
 @AllArgsConstructor
 public class ExhibitionController {
@@ -21,14 +20,14 @@ public class ExhibitionController {
 
     @PostMapping("create")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-    public ResponseEntity<String> createExhibition(@RequestBody CreateExhibitionDto dto) {
+    public ResponseEntity<String> createExhibition(@RequestBody CreateExhibitionRequest dto) {
         exhibitionService.createExhibition(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Успешно создано");
     }
 
     @PutMapping("update")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-    public ResponseEntity<String> updateExhibition(@RequestBody UpdateExhibitionDto dto) {
+    public ResponseEntity<String> updateExhibition(@RequestBody UpdateExhibitionRequest dto) {
         exhibitionService.updateExhibition(dto);
         return ResponseEntity.status(HttpStatus.OK).body("Успешно обновлено");
 
@@ -43,12 +42,12 @@ public class ExhibitionController {
     }
 
     @GetMapping("getAll")
-    public ResponseEntity<List<GetExhibitionDto>> getAllExhibitions() {
+    public ResponseEntity<List<GetAllExhibitionResponse>> getAllExhibitions() {
         return ResponseEntity.status(HttpStatus.OK).body(exhibitionService.getAllExhibitions());
     }
 
     @GetMapping("get/{id}")
-    public ResponseEntity<GetExhibitionDto> getExhibitionById(@PathVariable("id") Integer id) {
+    public ResponseEntity<GetAllExhibitionResponse> getExhibitionById(@PathVariable("id") Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(exhibitionService.getExhibitionById(id));
     }
 }

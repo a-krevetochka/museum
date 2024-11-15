@@ -1,14 +1,14 @@
 package com.mgtu.museum.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,25 +28,18 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false, length = 64)
     private String lastName;
 
-    @Column(name = "updated_at")
-    private Date updatedAt;
-
-    @Column(name = "deleted_at")
-    private Date deletedAt;
-
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
-    private Date createdAt;
-
     @JoinColumn(name = "role")
     private Role role;
 
-    @Column(name = "secret", nullable = false, length = 256)
-    private String secret;
 
     @ColumnDefault("('user')")
     @Column(name = "username", length = 128)
     private String username;
+
+    @Size(max = 256)
+    @NotNull
+    @Column(name = "secret", nullable = false, length = 1024)
+    private String secret;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

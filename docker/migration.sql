@@ -156,4 +156,4 @@ create table public."user"
 alter table public."user"
     owner to museum;
 
-INSERT into "user"(name, middle_name, last_name, role, secret) values ('Чернышев','Чернышев','Чернышев','ADMIN','$2a$10$2ed6fBZO99N9pT1127Z7D.oKgXFl8JJ0l/SOyLx0SSB.bKQ7jIq3C','Chern')
+INSERT into "user"(name, middle_name, last_name, role, secret, username) values ('Чернышев','Чернышев','Чернышев','ADMIN','$2a$10$2ed6fBZO99N9pT1127Z7D.oKgXFl8JJ0l/SOyLx0SSB.bKQ7jIq3C','Chern')

@@ -12,7 +12,7 @@ public class ShelfMapper implements RowMapper<Shelf> {
         Shelf shelf = new Shelf();
         shelf.setId(rs.getInt("shelf_id"));
         shelf.setNumber(rs.getInt("number"));
-        shelf.setShelving_id(rs.getInt("shelving_id"));
+        shelf.setShelvingId(rs.getInt("shelving_id"));
         return shelf;
     }
 }

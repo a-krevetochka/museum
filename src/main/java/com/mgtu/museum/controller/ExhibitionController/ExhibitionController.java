@@ -1,5 +1,6 @@
 package com.mgtu.museum.controller.ExhibitionController;
 
+import com.mgtu.museum.controller.ExhibitionController.Request.AddExhibitRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
@@ -49,5 +50,10 @@ public class ExhibitionController {
     @GetMapping("get/{id}")
     public ResponseEntity<GetAllExhibitionResponse> getExhibitionById(@PathVariable("id") Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(exhibitionService.getExhibitionById(id));
+    }
+    @PostMapping("add_exhibit")
+    public ResponseEntity<String> addExhibit(@RequestBody AddExhibitRequest dto){
+        exhibitionService.addExhibit(dto);
+        return ResponseEntity.ok("экспонат добавлен на выставку");
     }
 }

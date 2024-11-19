@@ -22,6 +22,6 @@ public class Shelf {
     @Column(name = "number", nullable = false)
     private Integer number;
 
-    private Integer shelving_id;
+    private Integer shelvingId;
 
 }

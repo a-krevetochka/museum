@@ -13,8 +13,8 @@ public class ExhibitDescription {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exhibit_id")
-    private Exhibit exhibit;
+    private String description;
+
+    private Integer exhibit_id;
 
 }

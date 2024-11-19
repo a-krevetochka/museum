@@ -20,8 +20,6 @@ public class Room {
     private Integer number;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "storage_id", nullable = false)
-    private Storage storage;
+    private Integer storageId;
 
 }

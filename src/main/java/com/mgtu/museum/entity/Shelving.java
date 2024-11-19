@@ -1,6 +1,7 @@
 package com.mgtu.museum.entity;
 
 
+import com.mgtu.museum.Enum.ShelvingType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,18 +20,14 @@ public class Shelving {
     @Column(name = "number", nullable = false)
     private Integer number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exhibition_id")
-    private Exhibition exhibition;
+    private Integer exhibition_id;
 
     @Size(max = 16)
     @NotNull
     @Column(name = "type", nullable = false, length = 16)
-    private String type;
+    private ShelvingType type;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+    private Integer roomId;
 
 }

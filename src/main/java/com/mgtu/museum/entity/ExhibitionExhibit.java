@@ -3,10 +3,12 @@ package com.mgtu.museum.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
+@Builder
 public class ExhibitionExhibit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,23 +16,15 @@ public class ExhibitionExhibit {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "exhibit_id", nullable = false)
-    private Exhibit exhibit;
+    private Integer exhibitId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "shelf_id", nullable = false)
-    private Shelf shelf;
+    private Integer shelfId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "exhibition_id", nullable = false)
-    private Exhibition exhibition;
+    private Integer exhibitionId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "description_id", nullable = false)
-    private ExhibitDescription description;
+    private Integer descriptionId;
 
 }

@@ -1,8 +1,11 @@
 package com.mgtu.museum.service;
 
+import com.mgtu.museum.controller.ExhibitionController.Request.AddExhibitRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
+import com.mgtu.museum.entity.ExhibitionExhibit;
+import com.mgtu.museum.repository.ExhibitionExhibitRepository;
 import com.mgtu.museum.repository.ExhibitionRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +20,7 @@ import java.util.List;
 public class ExhibitionService {
     private final ExhibitionRepository exhibitionRepository;
     private final ModelMapper modelMapper;
+    private final ExhibitionExhibitRepository exhibitionExhibitRepository;
 
     public void createExhibition(CreateExhibitionRequest dto) {
         validateDates(dto.getStartDate(), dto.getEndDate());
@@ -49,4 +53,12 @@ public class ExhibitionService {
         }
     }
 
+    public void addExhibit(AddExhibitRequest dto) {
+        exhibitionExhibitRepository.save(ExhibitionExhibit.builder()
+                .exhibitionId(dto.getExhibitionId())
+                .descriptionId(dto.getDescriptionId())
+                .exhibitId(dto.getExhibitId())
+                .shelfId(dto.getShelfId())
+                .build());
+    }
 }

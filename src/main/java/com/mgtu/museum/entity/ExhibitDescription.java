@@ -15,6 +15,6 @@ public class ExhibitDescription {
 
     private String description;
 
-    private Integer exhibit_id;
+    private Integer exhibitId;
 
 }

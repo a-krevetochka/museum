@@ -1,11 +1,9 @@
 package com.mgtu.museum.controller.StorageUnitController;
 
-import com.mgtu.museum.controller.StorageUnitController.Request.CreateShelfRequest;
-import com.mgtu.museum.controller.StorageUnitController.Request.CreateShelvingRequest;
-import com.mgtu.museum.controller.StorageUnitController.Request.GetShelvingsRequest;
+import com.mgtu.museum.controller.StorageUnitController.Request.*;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelfsResponse;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelvingsResponse;
-import com.mgtu.museum.controller.StorageUnitController.Response.RetRoomResponse;
+import com.mgtu.museum.controller.StorageUnitController.Response.GetRoomResponse;
 import com.mgtu.museum.service.StorageUnitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +20,18 @@ public class StorageUnitController {
     @PostMapping("create_shelving")
     public ResponseEntity<String> createShelving(@RequestBody CreateShelvingRequest dto) {
         storageUnitService.createShelving(dto);
-        return ResponseEntity.ok(dto.getType() + " успешно создан/а");
+        return ResponseEntity.ok("Витрина создана");
     }
 
-    @PostMapping("shelf/{id}/create_shelf")
-    public ResponseEntity<String> createShelf(@PathVariable Integer id, @RequestBody CreateShelfRequest dto) {
-        storageUnitService.createShelf(id, dto);
+    @PostMapping("create_room")
+    public ResponseEntity<String> createRoom(@RequestBody CreateRoomRequest dto){
+        storageUnitService.createRoom(dto);
+        return ResponseEntity.ok("Комната создана");
+    }
+
+    @PostMapping("create_shelf")
+    public ResponseEntity<String> createShelf(@RequestBody CreateShelfRequest dto) {
+        storageUnitService.createShelf(dto);
         return ResponseEntity.ok("полка успешно создана");
     }
 
@@ -44,12 +48,18 @@ public class StorageUnitController {
     }
 
     @GetMapping("get_all_rooms")
-    public ResponseEntity<List<RetRoomResponse>> getAllRooms() {
+    public ResponseEntity<List<GetRoomResponse>> getAllRooms() {
         return ResponseEntity.ok(storageUnitService.getAllRooms());
     }
 
-    @GetMapping("shelvings")
-    public ResponseEntity<List<GetShelvingsResponse>> getShelvings (@RequestBody GetShelvingsRequest dto) {
+    @PutMapping("change_shelving_room")
+    public ResponseEntity<String> changeShelvingRoom(@RequestBody ChangeShelvingRoom dto){
+        storageUnitService.changeShelvingRoom(dto);
+        return ResponseEntity.ok("Витрина перемещена");
+    }
+
+    @GetMapping("get_shelvings")
+    public ResponseEntity<List<GetShelvingsResponse>> getShelvings(@RequestBody GetShelvingsRequest dto) {
         return ResponseEntity.ok(storageUnitService.getShelvings(dto));
     }
 

@@ -1,19 +1,14 @@
 package com.mgtu.museum.controller.ExhibitionController.Request;
 
-
 import lombok.*;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class AddExhibitRequest {
+public class AddRoomRequest {
     @NonNull
-    private Integer exhibitId;
-    @NonNull
-    private Integer descriptionId;
-
-    private Integer shelfId;
-
     private Integer roomId;
+    @NonNull
+    private Integer exhibitionId;
 }

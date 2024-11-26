@@ -1,12 +1,14 @@
 package com.mgtu.museum.service;
 
 import com.mgtu.museum.controller.ExhibitionController.Request.AddExhibitRequest;
+import com.mgtu.museum.controller.ExhibitionController.Request.AddRoomRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
 import com.mgtu.museum.entity.ExhibitionExhibit;
-import com.mgtu.museum.repository.ExhibitionExhibitRepository;
-import com.mgtu.museum.repository.ExhibitionRepository;
+import com.mgtu.museum.entity.ExhibitionRoom;
+import com.mgtu.museum.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class ExhibitionService {
     private final ExhibitionRepository exhibitionRepository;
     private final ModelMapper modelMapper;
     private final ExhibitionExhibitRepository exhibitionExhibitRepository;
+    private final RoomRepository roomRepository;
+    private final ShelfRepository shelfRepository;
+    private final ExhibitionRoomRepository exhibitionRoomRepository;
 
     public void createExhibition(CreateExhibitionRequest dto) {
         validateDates(dto.getStartDate(), dto.getEndDate());
@@ -54,11 +59,30 @@ public class ExhibitionService {
     }
 
     public void addExhibit(AddExhibitRequest dto) {
+        if (dto.getShelfId() == null && dto.getRoomId() == null){
+            throw new IllegalArgumentException("Выберите место для размещение объекта");
+        }
+        boolean isAtAnotherExhibition = exhibitionExhibitRepository.isExhibitOnExhibition(dto.getExhibitId());
+        if (isAtAnotherExhibition){
+            throw new IllegalArgumentException("Данный экспонат уже используется на другой выставке");
+        }
+        Integer exhibitionId = dto.getShelfId() == null ? exhibitionRoomRepository.getExhibitionIdByRoomId(dto.getRoomId()) :
+                shelfRepository.getExhibitionIdByShelfId(dto.getShelfId());
+        if (exhibitionId == null){
+            throw new EntityNotFoundException("Выставки с этой полкой/помещением не существует");
+        }
         exhibitionExhibitRepository.save(ExhibitionExhibit.builder()
-                .exhibitionId(dto.getExhibitionId())
+                .exhibitionId(exhibitionId)
                 .descriptionId(dto.getDescriptionId())
                 .exhibitId(dto.getExhibitId())
                 .shelfId(dto.getShelfId())
+                .build());
+    }
+
+    public void addRoom(AddRoomRequest dto) {
+        exhibitionRoomRepository.save(ExhibitionRoom.builder()
+                .roomId(dto.getRoomId())
+                .exhibitionId(dto.getExhibitionId())
                 .build());
     }
 }

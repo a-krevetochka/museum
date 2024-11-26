@@ -1,15 +1,15 @@
 package com.mgtu.museum.service;
 
-import com.mgtu.museum.controller.StorageUnitController.Request.CreateShelfRequest;
-import com.mgtu.museum.controller.StorageUnitController.Request.CreateShelvingRequest;
-import com.mgtu.museum.controller.StorageUnitController.Request.GetShelvingsRequest;
+import com.mgtu.museum.controller.StorageUnitController.Request.*;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelfsResponse;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelvingsResponse;
-import com.mgtu.museum.controller.StorageUnitController.Response.RetRoomResponse;
-import com.mgtu.museum.repository.RoomRepository;
-import com.mgtu.museum.repository.ShelfRepository;
-import com.mgtu.museum.repository.ShelvingRepository;
+import com.mgtu.museum.controller.StorageUnitController.Response.GetRoomResponse;
+import com.mgtu.museum.entity.Room;
+import com.mgtu.museum.entity.Shelf;
+import com.mgtu.museum.entity.Shelving;
+import com.mgtu.museum.repository.*;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,30 +20,59 @@ public class StorageUnitService {
     private final ShelfRepository shelfRepository;
     private final ShelvingRepository shelvingRepository;
     private final RoomRepository roomRepository;
-
+    private final ExhibitionExhibitRepository exhibitionExhibitRepository;
+    private final ModelMapper mapper;
 
     public void createShelving(CreateShelvingRequest dto) {
-
+        Shelving shelving = Shelving.builder()
+                .roomId(dto.getRoomId())
+                .number(dto.getShelvingNumber())
+                .build();
+        shelvingRepository.save(shelving);
     }
 
-    public void createShelf(Integer id, CreateShelfRequest dto) {
+    public void createShelf(CreateShelfRequest dto) {
+        Shelf shelf = Shelf.builder()
+                .shelvingId(dto.getShelvingId())
+                .number(dto.getShelfNumber())
+                .build();
+        shelfRepository.save(shelf);
     }
 
     public void deleteShelf(Integer shelfId) {
     }
 
     public void deleteShelving(Integer shelvingId) {
+        Boolean isHasExhibits = exhibitionExhibitRepository.isShelvingEmpty(shelvingId);
+        if (isHasExhibits) {
+            throw new IllegalArgumentException("В полке есть экспонаты");
+        }
+        shelvingRepository.deleteById(shelvingId);
     }
 
-    public List<RetRoomResponse> getAllRooms() {
+    public List<GetRoomResponse> getAllRooms() {
         return null;
     }
 
     public List<GetShelvingsResponse> getShelvings(GetShelvingsRequest dto) {
-        return null;
+        return shelvingRepository.findAllByRoom(dto.getRoomId());
     }
 
     public List<GetShelfsResponse> getShelfs(Integer shelvingId) {
-        return null;
+        return shelfRepository.findAllByShelvingId(shelvingId).stream().map(s -> mapper.map(s, GetShelfsResponse.class)).toList();
+    }
+
+    public void createRoom(CreateRoomRequest dto) {
+        roomRepository.save(Room.builder()
+                .number(dto.getRoomNumber())
+                .build());
+    }
+
+    public void changeShelvingRoom(ChangeShelvingRoom dto) {
+        Boolean isHasExhibits = exhibitionExhibitRepository.isShelvingEmpty(dto.getShelvingId());
+        if (isHasExhibits) {
+            throw new IllegalArgumentException("В полке есть экспонаты");
+        }
+        shelvingRepository.updateRoom(dto.getShelvingId(), dto.getRoomId());
     }
 }

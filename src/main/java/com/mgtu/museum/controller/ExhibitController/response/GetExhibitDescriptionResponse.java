@@ -1,13 +1,15 @@
 package com.mgtu.museum.controller.ExhibitController.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class GetExhibitResponse {
-    private Integer id;
-    private String name;
+@Builder
+public class GetExhibitDescriptionResponse {
+    Integer id;
+    String description;
 }

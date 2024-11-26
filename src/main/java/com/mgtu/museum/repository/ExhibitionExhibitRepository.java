@@ -2,6 +2,7 @@ package com.mgtu.museum.repository;
 
 import com.mgtu.museum.entity.ExhibitionExhibit;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,19 @@ public class ExhibitionExhibitRepository {
                 exhibition.getDescriptionId());
     }
 
+    public boolean isExhibitOnExhibition(@NonNull Integer exhibitId) {
+        String sql = """
+                select count(*) > 0 from exhibition_exhibit where exhibit_id = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, Boolean.class, exhibitId);
+    }
+
+    public Boolean isShelvingEmpty(@NonNull Integer shelvingId) {
+        String sql = """
+                select count(*) > 0 from exhibition_exhibit ee
+                join shelf s on ee.shelf_id = s.id
+                where s.shelving_id = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, Boolean.class, shelvingId);
+    }
 }

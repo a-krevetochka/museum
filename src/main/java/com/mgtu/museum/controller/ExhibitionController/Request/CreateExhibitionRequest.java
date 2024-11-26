@@ -11,7 +11,7 @@ import java.util.Date;
 public class CreateExhibitionRequest {
     @NonNull
     String name;
-    @NonNull
+
     String description;
     @NonNull
     Date startDate;

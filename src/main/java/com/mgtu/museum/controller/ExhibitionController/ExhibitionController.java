@@ -1,6 +1,7 @@
 package com.mgtu.museum.controller.ExhibitionController;
 
 import com.mgtu.museum.controller.ExhibitionController.Request.AddExhibitRequest;
+import com.mgtu.museum.controller.ExhibitionController.Request.AddRoomRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
@@ -31,8 +32,6 @@ public class ExhibitionController {
     public ResponseEntity<String> updateExhibition(@RequestBody UpdateExhibitionRequest dto) {
         exhibitionService.updateExhibition(dto);
         return ResponseEntity.status(HttpStatus.OK).body("Успешно обновлено");
-
-
     }
 
     @DeleteMapping("delete/{id}")
@@ -55,5 +54,11 @@ public class ExhibitionController {
     public ResponseEntity<String> addExhibit(@RequestBody AddExhibitRequest dto){
         exhibitionService.addExhibit(dto);
         return ResponseEntity.ok("экспонат добавлен на выставку");
+    }
+
+    @PostMapping("add_room")
+    public ResponseEntity<String> addRoom(@RequestBody AddRoomRequest dto){
+        exhibitionService.addRoom(dto);
+        return ResponseEntity.ok("Помещение добавлено на выставку");
     }
 }

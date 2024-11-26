@@ -19,3 +19,10 @@ spring:
 auth:
   jwt:
     secret: oIl6/4nURBUCp7sR40hCUEO82z0VN4CAFbYix6RiReE=
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+  file:
+    name: myapp.log
+    path: C:/Users/meteo/Desktop/museum_mgtu

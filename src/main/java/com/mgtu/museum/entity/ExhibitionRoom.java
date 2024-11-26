@@ -2,21 +2,21 @@ package com.mgtu.museum.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "storages")
-public class Storage {
+@Data
+@Builder
+public class ExhibitionRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
-    @Column(name = "address", nullable = false, length = Integer.MAX_VALUE)
-    private String address;
+    private Integer exhibitionId;
 
+    @NotNull
+    private Integer roomId;
 }

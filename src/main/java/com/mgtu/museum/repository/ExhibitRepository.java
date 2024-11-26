@@ -14,35 +14,30 @@ public class ExhibitRepository {
 
     public void save(Exhibit exhibit) {
         String sql = """
-                Insert into exhibit(name, packaging_type, storage_shelf_id) values (?, ?, ?)
+                Insert into exhibit(name) values (?)
                 """.trim();
         jdbcTemplate.update(sql,
-                exhibit.getName(),
-                exhibit.getPackagingType().name().toLowerCase(),
-                exhibit.getStorageShelfId());
+                exhibit.getName());
     }
 
     public void update(Exhibit exhibit) {
         String sql = """
-                Update exhibit set name = ?, packaging_type = ?, storage_shelf_id = ? where id = ?
+                Update exhibit set name = ? where id = ?
                 """.trim();
         jdbcTemplate.update(sql,
                 exhibit.getName(),
-                exhibit.getPackagingType().name().toLowerCase(),
-                exhibit.getStorageShelfId(),
                 exhibit.getId());
     }
 
     public Exhibit findById(Integer id) {
         String sql = """
-                select 
-                id as exhibit_id, 
-                name as exhibit_name,
-                packaging_type as exhibit_packaging_type,
-                storage_shelf_id as exhibit_storage_shelf_id
+                select\s
+                id as exhibit_id,\s
+                name as exhibit_name
                 from exhibit where id = ?
-                """.trim();
+               \s""".trim();
         return jdbcTemplate.query(sql, new ExhibitMapper(), id).stream().findFirst().orElseThrow(() ->
                 new IllegalArgumentException("Экспоната с id " + id + " не существует"));
     }
+
 }

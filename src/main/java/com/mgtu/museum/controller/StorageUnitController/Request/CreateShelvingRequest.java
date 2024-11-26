@@ -1,18 +1,16 @@
 package com.mgtu.museum.controller.StorageUnitController.Request;
 
-import com.mgtu.museum.Enum.ShelvingType;
 import lombok.*;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 public class CreateShelvingRequest {
     @NonNull
     private Integer shelvingNumber;
-
-    private Integer exhibitionId;
+    @NonNull
     private Integer roomId;
     @NonNull
-    private ShelvingType type;
+    private Integer exhibitionId;
 }

@@ -20,7 +20,4 @@ public class Shelving {
     @NotNull
     private Integer roomId;
 
-    @NotNull
-    private Integer exhibitionId;
-
 }

@@ -21,21 +21,21 @@ public class ExhibitionController {
     private final ExhibitionService exhibitionService;
 
     @PostMapping("create")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> createExhibition(@RequestBody CreateExhibitionRequest dto) {
         exhibitionService.createExhibition(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Успешно создано");
     }
 
     @PutMapping("update")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> updateExhibition(@RequestBody UpdateExhibitionRequest dto) {
         exhibitionService.updateExhibition(dto);
         return ResponseEntity.status(HttpStatus.OK).body("Успешно обновлено");
     }
 
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> deleteExhibition(@PathVariable("id") Integer id) {
         exhibitionService.deleteExhibition(id);
         return ResponseEntity.status(HttpStatus.OK).build();

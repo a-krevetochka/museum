@@ -22,14 +22,14 @@ public class ExhibitController {
     private final ExhibitService exhibitService;
 
     @PostMapping("create")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> createExhibit(@RequestBody CreateExhibitRequest dto){
         exhibitService.createExhibit(dto);
         return ResponseEntity.ok("Экспонат создан");
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> updateExhibit(@RequestBody UpdateExhibitRequest dto){
         exhibitService.updateExhibit(dto);
         return ResponseEntity.ok("Экспонат обновлен");

@@ -6,12 +6,14 @@ import com.mgtu.museum.controller.ExhibitController.request.UpdateExhibitRequest
 import com.mgtu.museum.controller.ExhibitController.response.GetExhibitDescriptionResponse;
 import com.mgtu.museum.controller.ExhibitController.response.GetExhibitResponse;
 import com.mgtu.museum.service.ExhibitService;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -40,12 +42,6 @@ public class ExhibitController {
         return ResponseEntity.ok(exhibitService.getExhibitById(id));
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> deleteExhibit(@PathVariable Integer id){
-        exhibitService.deleteById(id);
-        return ResponseEntity.ok("Экспонат удален");
-    }
-
     @PostMapping("create_description")
     public ResponseEntity<String> createDescription(@RequestBody CreateDescriptionRequest dto){
         exhibitService.createDescription(dto);
@@ -55,5 +51,13 @@ public class ExhibitController {
     @GetMapping("get_exhibit_descriptions/{id}")
     public ResponseEntity<List<GetExhibitDescriptionResponse>> getExhibitDescriptions(@PathVariable Integer id){
         return ResponseEntity.ok(exhibitService.getExhibitDescriptions(id));
+    }
+    @GetMapping("get_by_name")
+    public ResponseEntity<List<GetExhibitResponse>> getExhibitByName(@PathParam("name") String name){
+        return ResponseEntity.ok(exhibitService.getExhibitByName(name));
+    }
+    @GetMapping("get_by_receipt_number")
+    public ResponseEntity<GetExhibitResponse> getExhibitByReceiptNumber(@PathParam("receipt_number") String receiptNumber) throws SQLException {
+        return ResponseEntity.ok(exhibitService.getExhibitByReceiptNumber(receiptNumber));
     }
 }

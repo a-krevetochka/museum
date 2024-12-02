@@ -25,4 +25,6 @@ public class Shelf {
     @NotNull
     private Integer shelvingId;
 
+    private String description;
+
 }

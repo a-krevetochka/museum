@@ -19,9 +19,9 @@ public class ShelvingRepository {
 
     public void save(Shelving shelving) {
         String sql = """
-                INSERT INTO shelving (number, room_id) values (?, ?)
+                INSERT INTO shelving (number, room_id, description) values (?, ?, ?)
                 """.trim();
-        jdbcTemplate.update(sql, shelving.getNumber(), shelving.getRoomId());
+        jdbcTemplate.update(sql, shelving.getNumber(), shelving.getRoomId(), shelving.getDescription());
     }
 
     public List<GetShelvingsResponse> findAllByRoom(@NonNull Integer roomId) {
@@ -35,6 +35,7 @@ public class ShelvingRepository {
                 return GetShelvingsResponse.builder()
                         .id(rs.getInt("id"))
                         .number(rs.getInt("number"))
+                        .description(rs.getString("description"))
                         .build();
             }
         }, roomId);
@@ -52,5 +53,12 @@ public class ShelvingRepository {
                 delete from shelving where id=?
                 """.trim();
         jdbcTemplate.update(sql, shelvingId);
+    }
+
+    public void updateDescription(@NonNull Integer shelvingId, @NonNull String description) {
+        String sql = """
+                update shelving set description=? where id=?
+                """.trim();
+        jdbcTemplate.update(sql, description, shelvingId);
     }
 }

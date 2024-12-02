@@ -1,5 +1,6 @@
 package com.mgtu.museum.repository;
 
+import com.mgtu.museum.controller.StorageUnitController.Request.UpdateShelfRequest;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelvingsResponse;
 import com.mgtu.museum.entity.Shelf;
 import com.mgtu.museum.mapper.ExhibitionMapper;
@@ -30,9 +31,9 @@ public class ShelfRepository {
 
     public void save(Shelf shelf) {
         String sql = """
-                INSERT INTO shelf (number, shelving_id) VALUES (?, ?)
+                INSERT INTO shelf (number, shelving_id, description) VALUES (?, ?, ?)
                 """.trim();
-        jdbcTemplate.update(sql, shelf.getNumber(), shelf.getShelvingId());
+        jdbcTemplate.update(sql, shelf.getNumber(), shelf.getShelvingId(), shelf.getDescription());
     }
 
     public Integer getExhibitionIdByShelfId(Integer shelfId) {
@@ -51,9 +52,17 @@ public class ShelfRepository {
                 id as shelf_id,
                 number as shelf_number,
                 shelving_id shelf_shelving_id
+                description
                 from shelf
                 where shelving_id = ?
                 """.trim();
         return jdbcTemplate.query(sql, new ShelfMapper(), shelvingId);
+    }
+
+    public void updateDescription(UpdateShelfRequest dto) {
+        String sql = """
+                UPDATE shelf set description = ? where id = ?
+                """.trim();
+        jdbcTemplate.update(sql, dto.getDescription(), dto.getShelfId());
     }
 }

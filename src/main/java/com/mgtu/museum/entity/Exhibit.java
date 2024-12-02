@@ -21,4 +21,7 @@ public class Exhibit {
     @Size(max = 256)
     @NotNull
     private String name;
+
+    @NotNull
+    private String receiptNumber;
 }

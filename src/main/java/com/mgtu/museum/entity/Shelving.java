@@ -20,4 +20,6 @@ public class Shelving {
     @NotNull
     private Integer roomId;
 
+    private String description;
+
 }

@@ -1,16 +1,15 @@
 package com.mgtu.museum.controller.StorageUnitController.Request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
-public class CreateShelfRequest {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UpdateShelfRequest {
     @NonNull
-    private Integer shelfNumber;
+    private int shelfId;
     @NonNull
-    private Integer shelvingId;
-
     private String description;
 }

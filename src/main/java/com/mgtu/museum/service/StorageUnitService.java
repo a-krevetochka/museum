@@ -27,6 +27,7 @@ public class StorageUnitService {
         Shelving shelving = Shelving.builder()
                 .roomId(dto.getRoomId())
                 .number(dto.getShelvingNumber())
+                .description(dto.getDescription())
                 .build();
         shelvingRepository.save(shelving);
     }
@@ -35,6 +36,7 @@ public class StorageUnitService {
         Shelf shelf = Shelf.builder()
                 .shelvingId(dto.getShelvingId())
                 .number(dto.getShelfNumber())
+                .description(dto.getDescription())
                 .build();
         shelfRepository.save(shelf);
     }
@@ -74,5 +76,13 @@ public class StorageUnitService {
             throw new IllegalArgumentException("В полке есть экспонаты");
         }
         shelvingRepository.updateRoom(dto.getShelvingId(), dto.getRoomId());
+    }
+
+    public void updateShelf(UpdateShelfRequest dto) {
+        shelfRepository.updateDescription(dto);
+    }
+
+    public void updateShelving(UpdateShelvingRequest dto) {
+        shelvingRepository.updateDescription(dto.getShelvingId(), dto.getDescription());
     }
 }

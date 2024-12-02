@@ -13,4 +13,6 @@ public class CreateShelvingRequest {
     private Integer roomId;
     @NonNull
     private Integer exhibitionId;
+
+    private String description;
 }

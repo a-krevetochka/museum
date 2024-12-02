@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -44,14 +45,19 @@ public class ExhibitService {
         return modelMapper.map(exhibitRepository.findById(id), GetExhibitResponse.class);
     }
 
-    public void deleteById(Integer id) {
-    }
-
     public void createDescription(CreateDescriptionRequest dto) {
             exhibitDescriptionRepository.save(modelMapper.map(dto, ExhibitDescription.class));
     }
 
     public List<GetExhibitDescriptionResponse> getExhibitDescriptions(Integer id) {
         return exhibitDescriptionRepository.getAllByExhibitId(id).stream().map(desc -> modelMapper.map(desc, GetExhibitDescriptionResponse.class)).toList();
+    }
+
+    public List<GetExhibitResponse> getExhibitByName(String name) {
+        return exhibitRepository.getAllByExhibitName(name).stream().map(desc -> modelMapper.map(desc, GetExhibitResponse.class)).toList();
+    }
+
+    public GetExhibitResponse getExhibitByReceiptNumber(String receiptNumber) throws SQLException {
+        return modelMapper.map(exhibitRepository.findByReceiptNumber(receiptNumber), GetExhibitResponse.class);
     }
 }

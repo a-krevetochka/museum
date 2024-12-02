@@ -41,6 +41,18 @@ public class StorageUnitController {
         return ResponseEntity.ok("полка успешно удалена");
     }
 
+    @PutMapping("/update_shelf")
+    public ResponseEntity<String> updateShelf(@RequestBody UpdateShelfRequest dto){
+        storageUnitService.updateShelf(dto);
+        return ResponseEntity.ok("полка успешно обновлена");
+    }
+
+    @PutMapping("/update_shelving")
+    public ResponseEntity<String> updateShelving(@RequestBody UpdateShelvingRequest dto){
+        storageUnitService.updateShelving(dto);
+        return ResponseEntity.ok("Витрина успешно обновлена");
+    }
+
     @DeleteMapping("delete_shelving/{shelvingId}")
     public ResponseEntity<String> deleteShelving(@PathVariable Integer shelvingId) {
         storageUnitService.deleteShelving(shelvingId);

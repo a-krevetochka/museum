@@ -2,6 +2,8 @@ package com.mgtu.museum.service;
 
 import com.mgtu.museum.controller.UserController.request.CreateUserRequest;
 import com.mgtu.museum.controller.UserController.request.ResetPasswordRequest;
+import com.mgtu.museum.controller.UserController.request.UpdateUserRequest;
+import com.mgtu.museum.entity.Role;
 import com.mgtu.museum.entity.User;
 import com.mgtu.museum.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -43,5 +45,17 @@ public class UserService implements UserDetailsService {
         }
         user.setSecret(BCrypt.hashpw(dto.getNewPassword(), BCrypt.gensalt()));
         userRepository.save(user);
+    }
+
+    public void updateUser(UpdateUserRequest dto) {
+        userRepository.updateUser(User.builder()
+                .id(dto.getUserId())
+                .name(dto.getName())
+                .role(new Role(dto.getRole()))
+                .lastName(dto.getLastName())
+                .username(dto.getUsername())
+                .middleName(dto.getMiddleName())
+                .build()
+        );
     }
 }

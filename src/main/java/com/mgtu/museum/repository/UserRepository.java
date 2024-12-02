@@ -39,4 +39,17 @@ public class UserRepository {
                 user.getSecret(),
                 user.getUsername());
     }
+
+    public void updateUser(User user) {
+        String sql = """
+                UPDATE "user" set name = ? middle_name = ?, last_name = ?, role = ?, username = ? where id = ?
+                """.trim();
+        jdbcTemplate.update(sql,
+                user.getName(),
+                user.getMiddleName(),
+                user.getLastName(),
+                user.getRole().getRole().toString(),
+                user.getUsername(),
+                user.getId());
+    }
 }

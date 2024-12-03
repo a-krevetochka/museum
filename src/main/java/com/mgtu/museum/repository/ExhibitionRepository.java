@@ -51,4 +51,16 @@ public class ExhibitionRepository {
                 """.trim();
         return jdbcTemplate.query(sql, new ExhibitionMapper());
     }
+
+    public Exhibition getById(int id) {
+        String sql = """
+                select id          as exhibition_id,
+                       name        as exhibition_name,
+                       description as exhibition_description,
+                       date_from   as exhibition_date_from,
+                       date_to     as exhibition_date_to
+                from exhibition where id=?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, new ExhibitionMapper(), id);
+    }
 }

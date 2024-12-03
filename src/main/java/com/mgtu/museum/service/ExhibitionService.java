@@ -38,7 +38,7 @@ public class ExhibitionService {
     }
 
     public GetAllExhibitionResponse getExhibitionById(int id) {
-        return null;
+        return modelMapper.map(exhibitionRepository.getById(id), GetAllExhibitionResponse.class);
     }
 
     public void updateExhibition(UpdateExhibitionRequest dto) {

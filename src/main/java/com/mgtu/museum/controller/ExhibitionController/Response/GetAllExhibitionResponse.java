@@ -18,5 +18,4 @@ public class GetAllExhibitionResponse {
     private String description;
     private Date dateFrom;
     private Date dateTo;
-    private User creator;
 }

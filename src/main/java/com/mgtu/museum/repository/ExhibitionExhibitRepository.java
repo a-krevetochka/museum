@@ -13,16 +13,17 @@ public class ExhibitionExhibitRepository {
 
     public void save(ExhibitionExhibit exhibition) {
         String sql = """
-                Insert into exhibition_exhibit (exhibit_id,shelf_id,exhibition_id,description_id) values (?, ?, ?, ?)
+                Insert into exhibition_exhibit (exhibit_id,shelf_id,exhibition_id,description_id,room_id) values (?, ?, ?, ?)
                 """.trim();
         jdbcTemplate.update(sql,
                 exhibition.getExhibitId(),
                 exhibition.getShelfId(),
                 exhibition.getExhibitionId(),
-                exhibition.getDescriptionId());
+                exhibition.getDescriptionId(),
+                exhibition.getRoomId());
     }
 
-    public boolean isExhibitOnExhibition(@NonNull Integer exhibitId) {
+    public Boolean isExhibitOnExhibition(@NonNull Integer exhibitId) {
         String sql = """
                 select count(*) > 0 from exhibition_exhibit where exhibit_id = ?
                 """.trim();
@@ -50,5 +51,19 @@ public class ExhibitionExhibitRepository {
                 select count(*) > 0 from exhibition_exhibit where shelf_id = ?
                 """.trim();
         return jdbcTemplate.queryForObject(sql, Boolean.class, shelfId);
+    }
+
+    public Boolean roomHasExhibits(Integer id) {
+        String sql = """
+                select count(*) > 0 from exhibition_exhibit where room_id = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, Boolean.class, id);
+    }
+
+    public void updateExhibitDescription(Integer descriptionId, @NonNull Integer exhibitionId, @NonNull Integer exhibitId) {
+        String sql = """
+                update exhibition_exhibit set description_id = ? where exhibit_id = ? and exhibition_id = ?
+                """.trim();
+        jdbcTemplate.update(sql, descriptionId,exhibitId, exhibitionId);
     }
 }

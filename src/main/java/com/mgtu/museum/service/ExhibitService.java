@@ -5,10 +5,13 @@ import com.mgtu.museum.controller.ExhibitController.request.CreateExhibitRequest
 import com.mgtu.museum.controller.ExhibitController.request.UpdateExhibitRequest;
 import com.mgtu.museum.controller.ExhibitController.response.GetExhibitDescriptionResponse;
 import com.mgtu.museum.controller.ExhibitController.response.GetExhibitResponse;
+import com.mgtu.museum.controller.ExhibitController.response.GetExhibitWithDescriptionResponse;
 import com.mgtu.museum.entity.Exhibit;
 import com.mgtu.museum.entity.ExhibitDescription;
+import com.mgtu.museum.entity.ExhibitionExhibit;
 import com.mgtu.museum.repository.ExhibitDescriptionRepository;
 import com.mgtu.museum.repository.ExhibitRepository;
+import com.mgtu.museum.repository.ExhibitionExhibitRepository;
 import com.mgtu.museum.repository.ShelfRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +27,7 @@ public class ExhibitService {
     private final ExhibitRepository exhibitRepository;
     private final ModelMapper modelMapper;
     private final ExhibitDescriptionRepository exhibitDescriptionRepository;
+    private final ExhibitionExhibitRepository exhibitionExhibitRepository;
 
     public void createExhibit(CreateExhibitRequest dto) {
         Exhibit exhibit = Exhibit.builder()
@@ -34,11 +38,8 @@ public class ExhibitService {
     }
 
     public void updateExhibit(UpdateExhibitRequest dto) {
-        Exhibit exhibit = Exhibit.builder()
-                .id(dto.getExhibitId())
-                .name(dto.getExhibitName())
-                .build();
-        exhibitRepository.update(exhibit);
+        exhibitRepository.updateName(dto.getExhibitId(), dto.getExhibitName());
+        exhibitionExhibitRepository.updateExhibitDescription(dto.getDescriptionId(),dto.getExhibitionId(), dto.getExhibitId());
     }
 
     public GetExhibitResponse getExhibitById(Integer id) {
@@ -59,5 +60,17 @@ public class ExhibitService {
 
     public List<GetExhibitResponse> getExhibitByReceiptNumber(Integer receiptNumber) throws SQLException {
         return exhibitRepository.findByReceiptNumber(receiptNumber).stream().map(desc -> modelMapper.map(desc, GetExhibitResponse.class)).toList();
+    }
+
+    public List<GetExhibitResponse> getByRoomId(Integer id) {
+        return exhibitRepository.getByRoomId(id).stream().map(e -> modelMapper.map(e, GetExhibitResponse.class)).toList();
+    }
+
+    public List<GetExhibitWithDescriptionResponse> getAll() {
+        return exhibitRepository.getAllWithDescriptions();
+    }
+
+    public List<GetExhibitResponse> getByShelfId(Integer id) {
+        return exhibitRepository.getByShelfId(id).stream().map(e -> modelMapper.map(e, GetExhibitResponse.class)).toList();
     }
 }

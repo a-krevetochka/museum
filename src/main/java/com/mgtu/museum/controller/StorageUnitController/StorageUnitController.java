@@ -84,4 +84,18 @@ public class StorageUnitController {
     public ResponseEntity<List<GetShelfsResponse>> getShelfsByShelvingId(@PathVariable Integer shelvingId) {
         return ResponseEntity.ok(storageUnitService.getShelfs(shelvingId));
     }
+
+    @DeleteMapping("delete_room/{id}")
+    public ResponseEntity<String> deleteRoom(@PathVariable Integer id) {
+        storageUnitService.deleteRoom(id);
+        return ResponseEntity.ok("Комната удалена");
+    }
+    @GetMapping("get_all_shelfs_from_exhibitions")
+    public ResponseEntity<List<GetShelfsResponse>> getAllShelfsFromExhibitions() {
+        return ResponseEntity.ok(storageUnitService.getAllShelfsFromExhibitions());
+    }
+    @GetMapping("get_all_shelings_from_exhibitions")
+    public ResponseEntity<List<GetShelvingsResponse>> getAllShelvingsFromExhibitions() {
+        return ResponseEntity.ok(storageUnitService.getAllShelvingsFromExhibitions());
+    }
 }

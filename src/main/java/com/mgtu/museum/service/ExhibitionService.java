@@ -65,20 +65,16 @@ public class ExhibitionService {
     }
 
     public void addExhibit(AddExhibitRequest dto) {
-        if (dto.getShelfId() == null && dto.getRoomId() == null){
+        if (dto.getShelfId() == null && dto.getRoomId() == null) {
             throw new IllegalArgumentException("Выберите место для размещение объекта");
         }
         boolean isAtAnotherExhibition = exhibitionExhibitRepository.isExhibitOnExhibition(dto.getExhibitId());
-        if (isAtAnotherExhibition){
+        if (isAtAnotherExhibition) {
             throw new IllegalArgumentException("Данный экспонат уже используется на другой выставке");
         }
-        Integer exhibitionId = dto.getShelfId() == null ? exhibitionRoomRepository.getExhibitionIdByRoomId(dto.getRoomId()) :
-                shelfRepository.getExhibitionIdByShelfId(dto.getShelfId());
-        if (exhibitionId == null){
-            throw new EntityNotFoundException("Выставки с этой полкой/помещением не существует");
-        }
         exhibitionExhibitRepository.save(ExhibitionExhibit.builder()
-                .exhibitionId(exhibitionId)
+                .exhibitionId(dto.getExhibitionId())
+                .roomId(dto.getRoomId())
                 .descriptionId(dto.getDescriptionId())
                 .exhibitId(dto.getExhibitId())
                 .shelfId(dto.getShelfId())

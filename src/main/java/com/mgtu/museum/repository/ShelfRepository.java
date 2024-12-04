@@ -1,5 +1,7 @@
 package com.mgtu.museum.repository;
 
+import com.mgtu.museum.controller.ExhibitController.response.GetExhibitWithDescriptionResponse;
+import com.mgtu.museum.controller.QrController.dto.NameDescDto;
 import com.mgtu.museum.controller.StorageUnitController.Request.UpdateShelfRequest;
 import com.mgtu.museum.controller.StorageUnitController.Response.GetShelvingsResponse;
 import com.mgtu.museum.entity.Shelf;
@@ -13,8 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @AllArgsConstructor
@@ -71,5 +72,40 @@ public class ShelfRepository {
                 delete from shelf where id = ?
                 """.trim();
         jdbcTemplate.update(sql, shelfId);
+    }
+
+    public List<Shelf> findAllFromExhibitions() {
+        String sql = """
+                select
+                                s.id as shelf_id,
+                                number as shelf_number,
+                                shelving_id shelf_shelving_id,
+                                s.description
+                                from shelf s
+                                join exhibition_exhibit on s.id = exhibition_exhibit.shelf_id
+                """.trim();
+        return jdbcTemplate.query(sql, new ShelfMapper());
+    }
+
+    public List<NameDescDto> getNamesAndDescriptions(List<Integer> ids) {
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+
+        String sql = String.format("""
+                SELECT Concat('полка ', number) as name, description
+                FROM shelf
+                WHERE id IN (%s)
+                """, placeholders);
+
+        List<Object> params = new ArrayList<>(ids);
+
+        return jdbcTemplate.query(sql,  new RowMapper<NameDescDto>() {
+            @Override
+            public NameDescDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return NameDescDto.builder()
+                        .name(rs.getString("name"))
+                        .desc(rs.getString("description"))
+                        .build();
+            }
+        }, params.toArray());
     }
 }

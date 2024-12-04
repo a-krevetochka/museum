@@ -16,4 +16,6 @@ public class AddExhibitRequest {
     private Integer shelfId;
 
     private Integer roomId;
+
+    private Integer exhibitionId;
 }

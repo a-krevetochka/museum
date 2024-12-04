@@ -11,5 +11,4 @@ public class GetUserResponse {
     String name;
     String middle_name;
     String last_name;
-    String role;
 }

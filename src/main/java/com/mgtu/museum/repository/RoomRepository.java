@@ -44,4 +44,11 @@ public class RoomRepository {
                 """.trim();
         return jdbcTemplate.query(sql, new RoomMapper());
     }
+
+    public void delete(Integer id) {
+        String sql = """
+                delete from room where id = ?
+                """.trim();
+        jdbcTemplate.update(sql, id);
+    }
 }

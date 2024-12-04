@@ -55,7 +55,6 @@ public class UserService implements UserDetailsService {
                 .name(dto.getName())
                 .role(new Role(dto.getRole()))
                 .lastName(dto.getLastName())
-                .username(dto.getUsername())
                 .middleName(dto.getMiddleName())
                 .build()
         );
@@ -65,7 +64,11 @@ public class UserService implements UserDetailsService {
         return userRepository.getAll().stream().map(u -> mapper.map(u, GetUserResponse.class)).toList();
     }
 
-    public void delete(String username) {
-        userRepository.delete(username);
+    public void delete(Integer id) {
+        userRepository.delete(id);
+    }
+
+    public GetUserResponse getById(Integer id) {
+        return mapper.map(userRepository.getById(id), GetUserResponse.class);
     }
 }

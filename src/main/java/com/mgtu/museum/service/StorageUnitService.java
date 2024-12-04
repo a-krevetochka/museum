@@ -94,4 +94,21 @@ public class StorageUnitService {
     public List<GetRoomResponse> getRoomsByExhibitionId(Integer exhibitionId) {
        return roomRepository.getRoomsByExibitionId(exhibitionId).stream().map(r -> mapper.map(r, GetRoomResponse.class)).toList();
     }
+
+    public void deleteRoom(Integer id) {
+        Boolean canDelete =
+                exhibitionExhibitRepository.roomHasExhibits(id) || shelvingRepository.roomHasShelvings(id);
+        if (!canDelete){
+            throw new IllegalArgumentException("Комната уже используется");
+        }
+        roomRepository.delete(id);
+    }
+
+    public List<GetShelfsResponse> getAllShelfsFromExhibitions() {
+        return shelfRepository.findAllFromExhibitions().stream().map(s -> mapper.map(s, GetShelfsResponse.class)).toList();
+    }
+
+    public List<GetShelvingsResponse> getAllShelvingsFromExhibitions() {
+        return shelvingRepository.findAllFromExhibitions();
+    }
 }

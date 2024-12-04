@@ -11,6 +11,10 @@ import lombok.NonNull;
 public class UpdateExhibitRequest {
     @NonNull
     private Integer exhibitId;
-    @NonNull
+
     private String exhibitName;
+
+    private Integer descriptionId;
+    @NonNull
+    private Integer exhibitionId;
 }

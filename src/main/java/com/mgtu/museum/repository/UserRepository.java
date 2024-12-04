@@ -1,5 +1,6 @@
 package com.mgtu.museum.repository;
 
+import com.mgtu.museum.entity.Role;
 import com.mgtu.museum.entity.User;
 import com.mgtu.museum.mapper.UserMapper;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,7 @@ public class UserRepository {
 
     public void updateUser(User user) {
         String sql = """
-                UPDATE "user" set name = ?, middle_name = ?, last_name = ?, role = ?, username = ? where id = ?
+                UPDATE "user" set name = ?, middle_name = ?, last_name = ?, role = ? where id = ?
                 """.trim();
         jdbcTemplate.update(sql,
                 user.getName(),
@@ -71,18 +72,18 @@ public class UserRepository {
         return jdbcTemplate.query(sql, new UserMapper());
     }
 
-    public void delete(String username) {
+    public void delete(Integer id) {
         String sql = """
-                DELETE FROM "user" where username = ?
+                DELETE FROM "user" where id = ?
                 """.trim();
-        jdbcTemplate.update(sql, username);
+        jdbcTemplate.update(sql, id);
     }
 
     public String getRole(String username) {
         String sql = """
                 select role from "user" where username = ?
                 """.trim();
-        return jdbcTemplate.queryForObject(sql, String.class, username);
+        return jdbcTemplate.queryForObject(sql, Role.class, username).getRole().name();
     }
 
     public void changePassword(User user) {
@@ -90,5 +91,21 @@ public class UserRepository {
                 update "user" set secret = ? where id = ?
                 """.trim();
         jdbcTemplate.update(sql, user.getSecret(), user.getId());
+    }
+
+    public User getById(Integer id) {
+        String sql = """
+                SELECT
+                id as user_id,
+                name as user_name,
+                middle_name as user_middle_name,
+                last_name as user_last_name,
+                role as user_role,
+                secret as user_secret,
+                username as user_username
+                FROM "user"
+                WHERE id = ?
+                """.trim();
+        return jdbcTemplate.query(sql, new UserMapper(), id).stream().findFirst().orElse(null);
     }
 }

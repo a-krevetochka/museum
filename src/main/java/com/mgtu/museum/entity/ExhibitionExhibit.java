@@ -18,7 +18,8 @@ public class ExhibitionExhibit {
     @NotNull
     private Integer exhibitId;
 
-    @NotNull
+    private Integer roomId;
+
     private Integer shelfId;
 
     @NotNull

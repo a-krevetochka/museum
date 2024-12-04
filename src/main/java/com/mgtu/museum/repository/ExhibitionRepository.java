@@ -2,13 +2,19 @@ package com.mgtu.museum.repository;
 
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
+import com.mgtu.museum.controller.QrController.dto.NameDescDto;
 import com.mgtu.museum.entity.Exhibition;
 import com.mgtu.museum.mapper.ExhibitionMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -69,5 +75,27 @@ public class ExhibitionRepository {
                 delete from exhibition where id=?
                 """.trim();
         jdbcTemplate.update(sql, id);
+    }
+
+    public List<NameDescDto> getNamesAndDescriptions(List<Integer> ids) {
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+
+        String sql = String.format("""
+                SELECT name as name, description
+                FROM exhibition
+                WHERE id IN (%s)
+                """, placeholders);
+
+        List<Object> params = new ArrayList<>(ids);
+
+        return jdbcTemplate.query(sql, new RowMapper<NameDescDto>() {
+            @Override
+            public NameDescDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return NameDescDto.builder()
+                        .name(rs.getString("name"))
+                        .desc(rs.getString("description"))
+                        .build();
+            }
+        }, params.toArray());
     }
 }

@@ -12,7 +12,6 @@ import lombok.NonNull;
 public class UpdateUserRequest {
     @NonNull
     Integer userId;
-    String username;
     String name;
     String middleName;
     String lastName;

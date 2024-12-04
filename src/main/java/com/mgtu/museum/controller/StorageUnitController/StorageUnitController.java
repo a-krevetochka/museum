@@ -64,8 +64,8 @@ public class StorageUnitController {
         return ResponseEntity.ok(storageUnitService.getAllRooms());
     }
 
-    @GetMapping("get_rooms_by_exhibition_id")
-    public ResponseEntity<List<GetRoomResponse>> getRoomsByExhibitionId(@RequestParam Integer exhibitionId) {
+    @GetMapping("get_rooms_by_exhibition_id/{exhibitionId}")
+    public ResponseEntity<List<GetRoomResponse>> getRoomsByExhibitionId(@PathVariable Integer exhibitionId) {
         return ResponseEntity.ok(storageUnitService.getRoomsByExhibitionId(exhibitionId));
     }
 

@@ -48,50 +48,56 @@ public class ExhibitRepository {
 
     public List<Exhibit> getAllByExhibitName(String name) {
         String sql = """
-                id as exhibit_id,\s
+                select
+                id as exhibit_id,
                 name as exhibit_name
-                from exhibit where name like "%?%"
+                from exhibit where lower(name) like '%%%s%%'
                 """.trim();
-        return jdbcTemplate.query(sql, new ExhibitMapper(), name);
+        sql = String.format(sql, name.toLowerCase());
+        return jdbcTemplate.query(sql, new ExhibitMapper());
     }
 
-    public Exhibit findByReceiptNumber(String receiptNumber) throws SQLException {
+    public List<Exhibit> findByReceiptNumber(Integer receiptNumber) throws SQLException {
         String sql = """
                  select\s
                  id as exhibit_id,\s
                  name as exhibit_name
-                 from exhibit where receipt_number = ?
+                 from exhibit where id = ?
                 \s""".trim();
-        Optional<Exhibit> exhibit = jdbcTemplate.query(sql, new ExhibitMapper(), receiptNumber).stream().findFirst();
-        return exhibit.orElseGet(() -> getFrom2DB(receiptNumber));
+        List<Exhibit> exhibits = jdbcTemplate.query(sql, new ExhibitMapper(), receiptNumber);
+        exhibits.addAll(getFrom2DB(receiptNumber));
+        return exhibits;
     }
 
-    private Exhibit getFrom2DB(String receiptNumber) {
-        throw new EntityNotFoundException("Экспоната не существует");
+    private List<Exhibit> getFrom2DB(Integer receiptNumber) throws SQLException {
+        return null;
 //        String url = "jdbc:postgresql://localhost:5432/your_secondary_database_name"; // Replace with your database URL
 //        String user = "your_username"; // Replace with your username
 //        String password = "your_password"; // Replace with your password
+//        List<Exhibit> exhibits = new ArrayList<>();
 //        try (Connection connection = DriverManager.getConnection(url, user, password)) {
 //            try (Statement statement = connection.createStatement()) {
 //                try (Connection dbConnection = DriverManager.getConnection(url, user, password)) {
 //                    try (Statement dbStatement = dbConnection.createStatement()) {
 //                        ResultSet set = dbStatement.executeQuery(String.format("select" +
-//                                "id as exhibit_id" +
-//                                "name as exhibit_name" +
-//                                "from exhibit where receipt_number = %s", receiptNumber).trim());
-//                        if (set.next()) { // Check if a row was returned
-//                            Exhibit exhibit = new Exhibit();
-//                            exhibit.setId(set.getInt("id"));
-//                            exhibit.setName(set.getString("name"));
-//                            return exhibit;
-//                        } else {
-//                            throw new EntityNotFoundException("Экспоната нет");
+//                                "nkp as exhibit_id" +
+//                                "fio as exhibit_name" +
+//                                "from kp_base where nkp = %s", receiptNumber).trim());
+//                        while (set.next()) {
+//                            Exhibit exhibit = new Exhibit();// Перебор всех строк в ResultSet
+//                            exhibit.setId(set.getInt("exhibit_id")); // Используйте alias, который вы указали в SQL
+//                            exhibit.setName(set.getString("exhibit_name")); // Используйте alias, который вы указали в SQL
+//                            exhibits.add(exhibit); // Добавление объекта в список
 //                        }
+//                    } catch (SQLException ex) {
+//                        throw new RuntimeException(ex);
 //                    }
+//                } catch (SQLException ex) {
+//                    throw new RuntimeException(ex);
 //                }
 //            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
 //        }
+//        return exhibits;
     }
 }
+

@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Repository
 @AllArgsConstructor
 public class UserRepository {
@@ -42,7 +45,7 @@ public class UserRepository {
 
     public void updateUser(User user) {
         String sql = """
-                UPDATE "user" set name = ? middle_name = ?, last_name = ?, role = ?, username = ? where id = ?
+                UPDATE "user" set name = ?, middle_name = ?, last_name = ?, role = ?, username = ? where id = ?
                 """.trim();
         jdbcTemplate.update(sql,
                 user.getName(),
@@ -51,5 +54,41 @@ public class UserRepository {
                 user.getRole().getRole().toString(),
                 user.getUsername(),
                 user.getId());
+    }
+
+    public List<User> getAll() {
+        String sql = """
+                SELECT
+                id as user_id,
+                name as user_name,
+                middle_name as user_middle_name,
+                last_name as user_last_name,
+                role as user_role,
+                secret as user_secret,
+                username as user_username
+                FROM "user"
+                """.trim();
+        return jdbcTemplate.query(sql, new UserMapper());
+    }
+
+    public void delete(String username) {
+        String sql = """
+                DELETE FROM "user" where username = ?
+                """.trim();
+        jdbcTemplate.update(sql, username);
+    }
+
+    public String getRole(String username) {
+        String sql = """
+                select role from "user" where username = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, String.class, username);
+    }
+
+    public void changePassword(User user) {
+        String sql = """
+                update "user" set secret = ? where id = ?
+                """.trim();
+        jdbcTemplate.update(sql, user.getSecret(), user.getId());
     }
 }

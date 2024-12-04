@@ -42,6 +42,11 @@ public class StorageUnitService {
     }
 
     public void deleteShelf(Integer shelfId) {
+        Boolean isHasExhibits = exhibitionExhibitRepository.isShelfEmpty(shelfId);
+        if (isHasExhibits) {
+            throw new IllegalArgumentException("В полке есть экспонаты");
+        }
+        shelfRepository.delete(shelfId);
     }
 
     public void deleteShelving(Integer shelvingId) {
@@ -53,7 +58,7 @@ public class StorageUnitService {
     }
 
     public List<GetRoomResponse> getAllRooms() {
-        return null;
+        return roomRepository.getAll().stream().map(r -> mapper.map(r, GetRoomResponse.class)).toList();
     }
 
     public List<GetShelvingsResponse> getShelvings(GetShelvingsRequest dto) {
@@ -84,5 +89,9 @@ public class StorageUnitService {
 
     public void updateShelving(UpdateShelvingRequest dto) {
         shelvingRepository.updateDescription(dto.getShelvingId(), dto.getDescription());
+    }
+
+    public List<GetRoomResponse> getRoomsByExhibitionId(Integer exhibitionId) {
+       return roomRepository.getRoomsByExibitionId(exhibitionId).stream().map(r -> mapper.map(r, GetRoomResponse.class)).toList();
     }
 }

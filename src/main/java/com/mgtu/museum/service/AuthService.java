@@ -24,6 +24,6 @@ public class AuthService {
         if (!BCrypt.checkpw(dto.getSecret(), user.getSecret())){
             throw new AccessDeniedException("Неверный логин или пароль");
         }
-        return new SignInResponse(tokenService.generateToken(dto.getUsername()));
+        return new SignInResponse(tokenService.generateToken(dto.getUsername()), userRepository.getRole(dto.getUsername()));
     }
 }

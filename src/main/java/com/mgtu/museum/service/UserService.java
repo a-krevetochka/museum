@@ -3,6 +3,7 @@ package com.mgtu.museum.service;
 import com.mgtu.museum.controller.UserController.request.CreateUserRequest;
 import com.mgtu.museum.controller.UserController.request.ResetPasswordRequest;
 import com.mgtu.museum.controller.UserController.request.UpdateUserRequest;
+import com.mgtu.museum.controller.UserController.response.GetUserResponse;
 import com.mgtu.museum.entity.Role;
 import com.mgtu.museum.entity.User;
 import com.mgtu.museum.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -44,7 +46,7 @@ public class UserService implements UserDetailsService {
             throw new AccessDeniedException("Неверный логин или пароль");
         }
         user.setSecret(BCrypt.hashpw(dto.getNewPassword(), BCrypt.gensalt()));
-        userRepository.save(user);
+        userRepository.changePassword(user);
     }
 
     public void updateUser(UpdateUserRequest dto) {
@@ -57,5 +59,13 @@ public class UserService implements UserDetailsService {
                 .middleName(dto.getMiddleName())
                 .build()
         );
+    }
+
+    public List<GetUserResponse> getAll() {
+        return userRepository.getAll().stream().map(u -> mapper.map(u, GetUserResponse.class)).toList();
+    }
+
+    public void delete(String username) {
+        userRepository.delete(username);
     }
 }

@@ -22,6 +22,4 @@ public class Exhibit {
     @NotNull
     private String name;
 
-    @NotNull
-    private String receiptNumber;
 }

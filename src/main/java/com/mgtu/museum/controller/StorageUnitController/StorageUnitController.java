@@ -64,6 +64,11 @@ public class StorageUnitController {
         return ResponseEntity.ok(storageUnitService.getAllRooms());
     }
 
+    @GetMapping("get_rooms_by_exhibition_id")
+    public ResponseEntity<List<GetRoomResponse>> getRoomsByExhibitionId(@RequestParam Integer exhibitionId) {
+        return ResponseEntity.ok(storageUnitService.getRoomsByExhibitionId(exhibitionId));
+    }
+
     @PutMapping("change_shelving_room")
     public ResponseEntity<String> changeShelvingRoom(@RequestBody ChangeShelvingRoom dto){
         storageUnitService.changeShelvingRoom(dto);

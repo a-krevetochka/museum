@@ -57,7 +57,7 @@ public class ExhibitService {
         return exhibitRepository.getAllByExhibitName(name).stream().map(desc -> modelMapper.map(desc, GetExhibitResponse.class)).toList();
     }
 
-    public GetExhibitResponse getExhibitByReceiptNumber(String receiptNumber) throws SQLException {
-        return modelMapper.map(exhibitRepository.findByReceiptNumber(receiptNumber), GetExhibitResponse.class);
+    public List<GetExhibitResponse> getExhibitByReceiptNumber(Integer receiptNumber) throws SQLException {
+        return exhibitRepository.findByReceiptNumber(receiptNumber).stream().map(desc -> modelMapper.map(desc, GetExhibitResponse.class)).toList();
     }
 }

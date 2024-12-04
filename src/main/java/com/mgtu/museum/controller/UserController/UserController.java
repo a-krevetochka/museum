@@ -3,6 +3,7 @@ package com.mgtu.museum.controller.UserController;
 import com.mgtu.museum.controller.UserController.request.CreateUserRequest;
 import com.mgtu.museum.controller.UserController.request.ResetPasswordRequest;
 import com.mgtu.museum.controller.UserController.request.UpdateUserRequest;
+import com.mgtu.museum.controller.UserController.response.GetUserResponse;
 import com.mgtu.museum.service.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.nio.file.ProviderNotFoundException;
+import java.util.List;
 
 @RestController()
 @RequestMapping("api/v1/user")
@@ -35,5 +38,15 @@ public class UserController {
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserRequest dto){
         userService.updateUser(dto);
         return ResponseEntity.ok("пользователь обновлен");
+    }
+    @GetMapping("getAll")
+    public ResponseEntity<List<GetUserResponse>> getUsers(){
+        return ResponseEntity.ok(userService.getAll());
+    }
+
+    @DeleteMapping("delete/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable String username){
+        userService.delete(username);
+        return ResponseEntity.ok("Пользователь удален");
     }
 }

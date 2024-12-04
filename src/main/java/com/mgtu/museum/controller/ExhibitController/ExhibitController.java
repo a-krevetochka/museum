@@ -25,18 +25,19 @@ public class ExhibitController {
 
     @PostMapping("create")
 //    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    //TODO добавить номер поступления
     public ResponseEntity<String> createExhibit(@RequestBody CreateExhibitRequest dto){
         exhibitService.createExhibit(dto);
         return ResponseEntity.ok("Экспонат создан");
     }
-
+    //TODO поправить редактирование экспоната (добавить туда айди описания)
     @PutMapping("/update")
 //    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     public ResponseEntity<String> updateExhibit(@RequestBody UpdateExhibitRequest dto){
         exhibitService.updateExhibit(dto);
         return ResponseEntity.ok("Экспонат обновлен");
     }
-
+//TODO вернуть с описанием(поиск по id, полке и комнате)
     @GetMapping("/get/{id}")
     public ResponseEntity<GetExhibitResponse> getExhibitById(@PathVariable Integer id){
         return ResponseEntity.ok(exhibitService.getExhibitById(id));
@@ -53,11 +54,12 @@ public class ExhibitController {
         return ResponseEntity.ok(exhibitService.getExhibitDescriptions(id));
     }
     @GetMapping("get_by_name")
-    public ResponseEntity<List<GetExhibitResponse>> getExhibitByName(@PathParam("name") String name){
+    public ResponseEntity<List<GetExhibitResponse>> getExhibitByName(@RequestParam("name") String name){
         return ResponseEntity.ok(exhibitService.getExhibitByName(name));
     }
+    //TODO вернуть лист совпадений
     @GetMapping("get_by_receipt_number")
-    public ResponseEntity<GetExhibitResponse> getExhibitByReceiptNumber(@PathParam("receipt_number") String receiptNumber) throws SQLException {
+    public ResponseEntity<List<GetExhibitResponse>> getExhibitByReceiptNumber(@PathParam("receipt_number") Integer receiptNumber) throws SQLException {
         return ResponseEntity.ok(exhibitService.getExhibitByReceiptNumber(receiptNumber));
     }
 }

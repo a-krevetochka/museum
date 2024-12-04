@@ -65,4 +65,11 @@ public class ShelfRepository {
                 """.trim();
         jdbcTemplate.update(sql, dto.getDescription(), dto.getShelfId());
     }
+
+    public void delete(Integer shelfId) {
+        String sql = """
+                delete from shelf where id = ?
+                """.trim();
+        jdbcTemplate.update(sql, shelfId);
+    }
 }

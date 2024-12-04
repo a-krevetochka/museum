@@ -63,4 +63,11 @@ public class ExhibitionRepository {
                 """.trim();
         return jdbcTemplate.queryForObject(sql, new ExhibitionMapper(), id);
     }
+
+    public void delete(Integer id) {
+        String sql = """
+                delete from exhibition where id=?
+                """.trim();
+        jdbcTemplate.update(sql, id);
+    }
 }

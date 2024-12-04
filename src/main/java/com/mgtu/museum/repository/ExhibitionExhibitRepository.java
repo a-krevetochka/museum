@@ -37,4 +37,18 @@ public class ExhibitionExhibitRepository {
                 """.trim();
         return jdbcTemplate.queryForObject(sql, Boolean.class, shelvingId);
     }
+
+    public Boolean hasExhibits(Integer id) {
+        String sql = """
+                select count(*) > 0 from exhibition_exhibit where exhibition_id = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, Boolean.class, id);
+    }
+
+    public Boolean isShelfEmpty(Integer shelfId) {
+        String sql = """
+                select count(*) > 0 from exhibition_exhibit where shelf_id = ?
+                """.trim();
+        return jdbcTemplate.queryForObject(sql, Boolean.class, shelfId);
+    }
 }

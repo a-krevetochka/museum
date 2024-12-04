@@ -5,6 +5,7 @@ import com.mgtu.museum.controller.ExhibitionController.Request.AddRoomRequest;
 import com.mgtu.museum.controller.ExhibitionController.Request.CreateExhibitionRequest;
 import com.mgtu.museum.controller.ExhibitionController.Response.GetAllExhibitionResponse;
 import com.mgtu.museum.controller.ExhibitionController.Request.UpdateExhibitionRequest;
+import com.mgtu.museum.entity.Exhibition;
 import com.mgtu.museum.entity.ExhibitionExhibit;
 import com.mgtu.museum.entity.ExhibitionRoom;
 import com.mgtu.museum.repository.*;
@@ -47,6 +48,11 @@ public class ExhibitionService {
     }
 
     public void deleteExhibition(Integer id) {
+        Boolean isHasExhibits = exhibitionExhibitRepository.hasExhibits(id);
+        if (isHasExhibits) {
+            throw new IllegalArgumentException("Выставка уже используется");
+        }
+        exhibitionRepository.delete(id);
     }
 
     private void validateDates(Date startDate, Date endDate) {

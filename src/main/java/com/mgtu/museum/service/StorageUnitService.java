@@ -61,8 +61,8 @@ public class StorageUnitService {
         return roomRepository.getAll().stream().map(r -> mapper.map(r, GetRoomResponse.class)).toList();
     }
 
-    public List<GetShelvingsResponse> getShelvings(GetShelvingsRequest dto) {
-        return shelvingRepository.findAllByRoom(dto.getRoomId());
+    public List<GetShelvingsResponse> getShelvings(Integer id) {
+        return shelvingRepository.findAllByRoom(id);
     }
 
     public List<GetShelfsResponse> getShelfs(Integer shelvingId) {

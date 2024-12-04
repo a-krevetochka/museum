@@ -75,9 +75,9 @@ public class StorageUnitController {
         return ResponseEntity.ok("Витрина перемещена");
     }
 
-    @GetMapping("get_shelvings")
-    public ResponseEntity<List<GetShelvingsResponse>> getShelvings(@RequestBody GetShelvingsRequest dto) {
-        return ResponseEntity.ok(storageUnitService.getShelvings(dto));
+    @GetMapping("get_shelvings/{id}")
+    public ResponseEntity<List<GetShelvingsResponse>> getShelvings(@PathVariable Integer id) {
+        return ResponseEntity.ok(storageUnitService.getShelvings(id));
     }
 
     @GetMapping("shelving/{shelvingId}/get_shelfs")

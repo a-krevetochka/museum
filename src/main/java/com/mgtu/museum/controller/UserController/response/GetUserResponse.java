@@ -9,6 +9,7 @@ import lombok.*;
 public class GetUserResponse {
     Integer id;
     String name;
-    String middle_name;
-    String last_name;
+    String middleName;
+    String lastName;
+    String role;
 }

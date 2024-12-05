@@ -52,7 +52,7 @@ public class ShelfRepository {
                 select
                 id as shelf_id,
                 number as shelf_number,
-                shelving_id shelf_shelving_id
+                shelving_id,
                 description
                 from shelf
                 where shelving_id = ?
@@ -79,7 +79,7 @@ public class ShelfRepository {
                 select
                                 s.id as shelf_id,
                                 number as shelf_number,
-                                shelving_id shelf_shelving_id,
+                                shelving_id,
                                 s.description
                                 from shelf s
                                 join exhibition_exhibit on s.id = exhibition_exhibit.shelf_id

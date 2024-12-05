@@ -53,7 +53,6 @@ public class UserRepository {
                 user.getMiddleName(),
                 user.getLastName(),
                 user.getRole().getRole().toString(),
-                user.getUsername(),
                 user.getId());
     }
 

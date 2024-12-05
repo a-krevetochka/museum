@@ -83,7 +83,7 @@ public class UserRepository {
         String sql = """
                 select role from "user" where username = ?
                 """.trim();
-        return jdbcTemplate.queryForObject(sql, Role.class, username).getRole().name();
+        return jdbcTemplate.queryForObject(sql, String.class, username);
     }
 
     public void changePassword(User user) {

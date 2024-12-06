@@ -74,7 +74,7 @@ public class ExhibitRepository {
     }
 
     private List<Exhibit> getFrom2DB(Integer receiptNumber) throws SQLException {
-        return null;
+        return List.of();
 //        String url = "jdbc:postgresql://localhost:5432/your_secondary_database_name"; // Replace with your database URL
 //        String user = "your_username"; // Replace with your username
 //        String password = "your_password"; // Replace with your password

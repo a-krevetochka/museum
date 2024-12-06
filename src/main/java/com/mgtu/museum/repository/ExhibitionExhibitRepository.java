@@ -13,7 +13,7 @@ public class ExhibitionExhibitRepository {
 
     public void save(ExhibitionExhibit exhibition) {
         String sql = """
-                Insert into exhibition_exhibit (exhibit_id,shelf_id,exhibition_id,description_id,room_id) values (?, ?, ?, ?)
+                Insert into exhibition_exhibit (exhibit_id,shelf_id,exhibition_id,description_id,room_id) values (?, ?, ?, ?, ?)
                 """.trim();
         jdbcTemplate.update(sql,
                 exhibition.getExhibitId(),

@@ -15,7 +15,6 @@ spring:
   jackson:
     serialization:
       indent_output: true
-
 auth:
   jwt:
     secret: oIl6/4nURBUCp7sR40hCUEO82z0VN4CAFbYix6RiReE=
@@ -26,3 +25,7 @@ logging:
   file:
     name: myapp.log
     path: C:/Users/meteo/Desktop/museum_mgtu
+
+backup:
+  path: C:/Users/meteo/Desktop/museum_mgtu
+  dbName: museum

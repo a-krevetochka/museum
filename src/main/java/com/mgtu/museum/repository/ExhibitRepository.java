@@ -146,7 +146,7 @@ public class ExhibitRepository {
     public List<Exhibit> getByShelfId(Integer id) {
         String sql = """
                 select e.id as exhibit_id, e.name as exhibit_name from exhibition_exhibit ee
-                join exhibit e on ee.exhibit_id = ee.id
+                join exhibit e on ee.exhibit_id = e.id
                 where ee.shelf_id = ?
                 """.trim();
         return jdbcTemplate.query(sql, new ExhibitMapper(), id);

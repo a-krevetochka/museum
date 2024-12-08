@@ -31,7 +31,6 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-//                .addFilterBefore(corsFilter, SessionManagementFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()

@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(corsFilter, SessionManagementFilter.class)
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();

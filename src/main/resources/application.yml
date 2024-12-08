@@ -25,7 +25,8 @@ logging:
   file:
     name: myapp.log
     path: C:/Users/meteo/Desktop/museum_mgtu
-
+server:
+  port: 8081
 backup:
   path: C:/Users/meteo/Desktop/museum_mgtu
   dbName: museum

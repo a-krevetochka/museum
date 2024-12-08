@@ -17,7 +17,7 @@ services:
     user: "1000:1000" # adjust to your required user id
     restart: unless-stopped
     ports:
-      - "8081:8081" # internal port is 8080, map to what you need
+      - "8080:8080" # internal port is 8080, map to what you need
     environment:
       PHP_TIMEZONE: Europe/Berlin
       #PHP_MEMORYLIMIT: 256M

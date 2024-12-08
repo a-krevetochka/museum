@@ -26,7 +26,7 @@ import java.util.List;
 import com.itextpdf.text.pdf.BaseFont;
 
 @RestController
-@RequestMapping("/exhibits")
+@RequestMapping("api/v1/qr")
 @AllArgsConstructor
 public class QrController {
 

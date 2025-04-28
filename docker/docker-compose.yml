@@ -1,7 +1,8 @@
-version: '3.3'
+version: '3.8'
+
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     restart: always
     environment:
       POSTGRES_PASSWORD: museum123!@#
@@ -12,17 +13,40 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
+    networks:
+      - museum-network
+
   dokuwiki:
-    image: dokuwiki/dokuwiki:stable # other tags: master, <date> or <codename>
-    user: "1000:1000" # adjust to your required user id
+    image: dokuwiki/dokuwiki:stable
+    user: "1000:1000"
     restart: unless-stopped
     ports:
-      - "8080:8080" # internal port is 8080, map to what you need
+      - "8080:8080"
     environment:
       PHP_TIMEZONE: Europe/Berlin
-      #PHP_MEMORYLIMIT: 256M
-      #PHP_UPLOADLIMIT: 128M
     volumes:
       - ./storage:/storage
+    networks:
+      - museum-network
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/museum
+      SPRING_DATASOURCE_USERNAME: museum
+      SPRING_DATASOURCE_PASSWORD: museum123!@#
+    depends_on:
+      - postgres
+    networks:
+      - museum-network
+
 volumes:
   pgdata:
+
+networks:
+  museum-network:
+    driver: bridge
